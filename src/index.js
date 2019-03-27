@@ -1,15 +1,17 @@
-
+// Importing both the Pikachu and Charmeleon
 import { Pikachu } from "./pokemons/pikachu.js";
 import { Charmeleon } from "./pokemons/charmeleon.js";
 
 
 
+
+//creating the Pokemon
 const pokemon1 = new Pikachu({nickname: "Kevon"});
 const pokemon2 = new Charmeleon({nickname: "Alonx"});
 
-//turn 1
-pokemon1.attack(pokemon2,pokemon1.moves[0]);
-pokemon2.attack(pokemon1,pokemon2.moves[0]);
+//execute the pokemon moves
+pokemon1.attack(pokemon2,pokemon1.moves.electricRing);
+pokemon2.attack(pokemon1,pokemon2.moves.flare);
 
-console.log(pokemon1.health);
-console.log(pokemon2.health);
+pokemon1.attack(pokemon2,pokemon1.moves.electricRing);
+pokemon2.attack(pokemon1,pokemon2.moves.flare);

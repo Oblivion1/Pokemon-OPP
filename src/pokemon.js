@@ -11,6 +11,7 @@ function writeText(text) {
   eventScreen.appendChild(element);
 }
 
+// All energy types available.
 export const energyTypes = {
   lighting: "lightning",
   water: "water",
@@ -18,6 +19,7 @@ export const energyTypes = {
   fighting: "fighting"
 }
 
+// All moves available.
 export const pokemonmoves = {
   electricring: {
     name: 'Electric ring',
@@ -31,16 +33,13 @@ export const pokemonmoves = {
     name: 'Headbutt',
     damage: 10
   },
-  headbutt: {
-    name: 'Headbutt',
-    damage: 10
-  },
   flare: {
     name: 'Flare',
     damage: 30
   }
 }
 
+// The main pokemon class.
 export class Pokemon {
   constructor({
     nickname
@@ -48,45 +47,65 @@ export class Pokemon {
     this.nickname = nickname;
   }
 
-
-  attack(target, attack) {
+  // The attack method.
+  attack(target, attack){
+    // if the pokemon is fainted
+    if(!this.health){
+      text = "Can't attack if your fainted";
+      writeText(text);
+      return;
+    }
+    // if there is no attack
     if (!attack) {
+      text = "No attack selected ";
+      writeText(text);
       return;
     }
-
+    // if there is no target
     if (!target) {
+      text = "No target selected ";
+      writeText(text);
       return;
     }
+    target.takeDamage(attack.damage,this.energyType);
+  }
 
-    let damage = attack.damage;
-    let targetName = target.nickname || target.name;
-    const targetWeakness = target.weakness.find(weakness => weakness.energyType === this.energyType);
-    const targetResistance = target.resistance.find(resistance => resistance.energyType === this.energyType);
-    if (targetWeakness) {
-      damage -= targetWeakness.multiplier;
-
+  // the method that handles the damage calculation
+    takeDamage(damage,type){
+    let name = this.nickname || this.name;
+    const weakness = this.weakness.find(weakness => weakness.energyType === type);
+    const resistance = this.resistance.find(resistance => resistance.energyType === type);
+    // there is an weakness then apply the an multiplier
+    if(weakness){
+      damage -= weakness.multiplier;
       text = "It's super very effective";
       writeText(text);
-
     }
-    if (targetResistance) {
-      damage -= targetResistance.value;
-
+    // there is an weakness then reduce the damage of the move
+    if(resistance){
+      damage -= resistance.value;
       text = "It's not very effective";
       writeText(text);
     }
+    // rounding the damage
+    this.health -= Math.round(damage);
 
-    target.health -= Math.round(damage);
 
-    // when target faints
-    if (target.health <= 0) {
-      target.health = 0;
-      text = targetName += " has fainted!";
+    // pokemon has fainted if health is 0 or lower
+    if(this.health <= 0){
+      this.health = 0;
+      text = name += " has fainted!";
+      writeText(text);
+    }
+    else{
+      text = name += " has " + this.health + " health remaining";
       writeText(text);
     }
   }
 }
 
+
+// old code for pokebag
 
 /*
 export class Pokebag {
@@ -102,4 +121,5 @@ export class Pokebag {
     pokemon_m = [];
   }
 }
+
 */

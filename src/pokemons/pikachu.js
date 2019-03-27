@@ -1,9 +1,11 @@
+// importing the moves,types and the pokemon class
 import {
   pokemonmoves,
   energyTypes,
   Pokemon
 } from '../pokemon.js';
 
+// The Pikachu class. In here the basic pokemon stats get defined.
 export class Pikachu extends Pokemon{
    name = "Pikachu";
    energyType = energyTypes.lighting;
@@ -22,9 +24,9 @@ export class Pikachu extends Pokemon{
      'value'  :20
      }
    ];
-
-   moves = [
-     pokemonmoves.electricring ,
-     pokemonmoves.pikapunch
-   ];
+   
+   moves = {
+     electricRing: pokemonmoves.electricring,
+     pikapunch: pokemonmoves.pikapunch
+   }
 }
